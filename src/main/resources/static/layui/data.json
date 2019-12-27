@@ -1,0 +1,25 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 15,
+  "data": [
+    {
+      "usersId": "1",
+      "userName": "user12",
+      "userEmail": "123@qq.com",
+      "userSex": "女",
+      "userStatus": "0",
+      "userGrade": "倔强青铜",
+      "userEndTime": "2018-11-11 15:22:33"
+    },
+    {
+      "usersId": "2",
+      "userName": "asd",
+      "userEmail": "123@qq.com",
+      "userSex": "男",
+      "userStatus": "1",
+      "userGrade": "秩序白银",
+      "userEndTime": "2018-11-11 15:22:33"
+    }
+  ]
+}
