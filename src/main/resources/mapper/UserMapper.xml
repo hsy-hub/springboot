@@ -1,0 +1,23 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+    <sql id="sql">
+        select * from user2
+    </sql>
+
+
+    <select id="getUserList2"  parameterType="hashmap" resultType="User">
+        <include refid="sql"/>
+        <where>
+            <if test="loginName != null and loginName != ''">
+                and name like '%${loginName}%'
+            </if>
+            <if test="email != null and email != ''">
+                and email=#{email}
+            </if>
+        </where>
+        limit #{pagestart},#{size}
+    </select>
+
+</mapper>

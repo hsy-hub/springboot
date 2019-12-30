@@ -5,6 +5,9 @@ import com.example.demo.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.List;
+
 @Repository
 public class UserDao {
     @Autowired
@@ -12,5 +15,13 @@ public class UserDao {
 
     public User login(User user) {
         return userMapper.login(user);
+    }
+
+    public List<User> getUserList(HashMap map) {
+        return userMapper.getUserList(map);
+    }
+
+    public Integer userCount() {
+        return userMapper.userCount();
     }
 }

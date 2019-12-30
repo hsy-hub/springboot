@@ -33,6 +33,7 @@
 </div>
 
 <table class="layui-hide" id="LAY_table_user" lay-filter="useruv"></table>
+
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -47,31 +48,18 @@
             $ = layui.jquery;
             //方法级渲染
             table.render({
-                elem: '#LAY_table_user'
-                , url: '/userlist'
+                  elem: '#LAY_table_user'
+                , url: '/userList'
                 , cols: [[
-
-                    {type: "checkbox", field: 'id', fixed: "left", width: 50}, {
-                        field: 'name',
-                        title: '用户名',
-                        width: 150,
-                        align: "center"
-                    },
-                    {
-                        field: 'age', title: '年龄', width: 180, align: 'center'
-
-                    }, {field: 'major', title: '专业', width: 113, align: 'center'},
-                    {
-                        field: 'password',
-                        title: '用户密码',
-                        width: 150,
-                        align: 'center'
-                    },
-
+                    {type: "checkbox", field: 'id', fixed: "left", width: 50},
+                    {field: 'loginName', title: '用户名', width: 150, align: "center"},
+                    {field: 'email', title: '邮箱', width: 180, align: 'center'},
+                    {field: 'gender', title: '性别', width: 113, align: 'center'},
+                    {field: 'password', title: '用户密码', width: 150, align: 'center'},
                     {field: 'right', title: '操作', minWidth: 100, align: 'center', toolbar: "#barDemo", fixed: 'right'}
                 ]]
-                ,
-                id: 'testReload', page: true
+                , id: 'testReload'
+                , page: true
             });
 
 
