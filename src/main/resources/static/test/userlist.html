@@ -1,38 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>layui</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    <link rel="stylesheet" href="../layui/css/layui.css?t=1560414887305" media="all">
-
-
-    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
 </head>
 <body>
-<div style="margin-bottom: 5px;">
+<script src="/layui/layui.all.js"></script>
 
-    <!-- 示例-970 -->
-    <ins class="adsbygoogle" style="display:inline-block;width:700px"
-         data-ad-client="ca-pub-6111334333458862" data-ad-slot="3820120620"></ins>
-
-</div>
-<div class="demoTable">
-    姓名：
+<div class="demoTable" style="margin-top: 20px">
+    &nbsp; 姓名：
     <div class="layui-inline">
-        <input class="layui-input" name="loginName" id="username" autocomplete="off">
+        <input class="layui-input" name="name" id="searchName" autocomplete="off">
     </div>
-    专业：
+    住址：
     <div class="layui-inline">
-        <input class="layui-input" name="major" id="major" autocomplete="off">
+        <input class="layui-input" name="address" id="searchAddress" autocomplete="off">
     </div>
-    <button class="layui-btn" id="btn-search" data-type="reload">搜索</button>
+    <button class="layui-btn" id="searchBtn" data-type="reload">搜索</button>
 </div>
 
-<table class="layui-hide" id="LAY_table_user" lay-filter="useruv"></table>
+
+<table id="demo" lay-filter="test"></table>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" id="btn-add" lay-event="add">添加</button>
+        <button class="layui-btn layui-btn-sm delAll_btn" lay-event="delete">批量删除</button>
+        <button class="layui-btn layui-btn-sm" lay-event="update">编辑</button>
+    </div>
+</script>
+
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
@@ -40,132 +39,386 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
+<!--编辑操作-->
+<script type="text/html" id="updatepage">
+    <form class="layui-form" lay-filter="update-form">
+        <div class="layui-input-block ">
+            <input type="hidden" name="id"
+                   id="id"
+                   required lay-verify="required">
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block ">
+                <input type="text" name="name"
+                       id="name"
+                       required lay-verify="required" class="layui-input" style="width: 200px"
+                       placeholder="请输入姓名">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">登录名</label>
+            <div class="layui-input-block ">
+                <input type="text" name="loginName" class="layui-input" style="width: 200px"
+                       id="loginName"
+                       required lay-verify="required"
+                       placeholder="请输入登录名">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">生日</label>
+            <div class="layui-input-block ">
+                <input type="text" name="birthDate" class="layui-input" style="width: 200px"
+                       id="birthDate"
+                       required lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址</label>
+            <div class="layui-input-block ">
+                <input type="text" name="address" class="layui-input" style="width: 200px"
+                       id="address"
+                       required lay-verify="required"
+                       placeholder="地址">
+            </div>
+            <div class="layui-upload">
+                <label class="layui-form-label">头像</label>
+                <div class="layui-upload-list">
+                    <img class="layui-upload-img" id="head" name="demo1" src="/pic/" style="width: 100px;height:100px">
+                    <button type="button" class="layui-btn layui-btn-img" id="test1">上传头像</button>
+                    <p id="demoText"></p>
+                </div>
+            </div>
+            <div class="layui-form-item" style="margin-top:40px">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-submit " lay-submit=""
+                            lay-filter="update-submit_btn" id="upload">确认修改
+                    </button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</script>
 
-<script src="../layui/layui.js"></script>
+<!--查看操作-->
+<script type="text/html" id="detailForm">
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名:</label>
+        <label class="layui-form-label"
+               id="dname"
+        />
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">登录名:</label>
+        <label class="layui-form-label"
+               id="dloginName"
+        />
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">生日:</label>
+        <label class="layui-form-label"
+               id="dbirthDate"
+        />
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">地址:</label>
+        <label class="layui-form-label"
+               id="daddress"
+        />
+    </div>
+
+
+    <label class="layui-form-label">头像</label>
+    <div class="layui-upload-list">
+        <img class="layui-upload-img" id="headpath1" name="demo1" style="width: 100px;height:100px">
+    </div>
+
+</script>
+
 <script>
-    layui.use('table', function () {
-            var table = layui.table;
-            $ = layui.jquery;
-            //方法级渲染
-            table.render({
-                  elem: '#LAY_table_user'
-                , url: '/userList'
-                , cols: [[
-                    {type: "checkbox", field: 'id', fixed: "left", width: 50},
-                    {field: 'loginName', title: '用户名', width: 150, align: "center"},
-                    {field: 'email', title: '邮箱', width: 180, align: 'center'},
-                    {field: 'gender', title: '性别', width: 113, align: 'center'},
-                    {field: 'password', title: '用户密码', width: 150, align: 'center'},
-                    {field: 'right', title: '操作', minWidth: 100, align: 'center', toolbar: "#barDemo", fixed: 'right'}
-                ]]
-                , id: 'testReload'
-                , page: true
-            });
+    layui.use(['upload', 'table', 'jquery', 'form', 'layer'], function () {
+        var table = layui.table,
+            $ = layui.$,
+            upload = layui.upload,
+            layer = layui.layer,
+            form = layui.form;
 
-
-            // 执行搜索，表格重载
-            $('#btn-search').on('click', function () {
-                // 搜索条件
-                var username = $('#username').val();
-                var major = $('#major').val();
-                table.reload('testReload', {
-                    method: 'post',
-                    where: {'username': username, 'major': major},
-                    page: {curr: 1}
-                });
-            });
-
-
-            //监听表格复选框选择
-            table.on('checkbox(useruv)', function (obj) {
-                console.log(obj)
-            });
-            //监听工具条
-            table.on('tool(useruv)', function (obj) {
-                    var data = obj.data;
-                    if (obj.event === 'detail') {
-                        layer.msg('ID：' + data.id + ' 的查看操作');
-                    } else if (obj.event === 'del') {
-                        layer.confirm('真的删除行么', function (index) {
-                            console.log(data);
-                            $.ajax({
-                                url: "/deleteUser",
-                                type: "POST",
-                                data: {"uvid": data.id, "memthodname": "deleteuv", "aid": data.aid},
-                                dataType: "json",
-                                success: function (data) {
-
-                                    if (data.state == 1) {
-                                        obj.del();
-                                        layer.close(index);
-                                        layer.msg("删除成功", {icon: 6});
-                                    } else {
-                                        layer.msg("删除失败", {icon: 5});
-                                    }
-                                }
-
-                            });
-                        });
-                    } else if (obj.event === 'edit') {
-
-                        //页面层
-                        layer.open({
-                            type: 2,
-                            title: "11111",
-                            area: ['630px', '360px'],
-                            shade: 0.8,
-                            closeBtn: 1,
-
-                            content: '/test/userDetail.html'
-                        });
-
-                        // layer.prompt({
-                        //     formType: 2
-                        //     , title: '修改 ID 为 [' + data.id + '] 的访问量'
-                        //     , value: data.uv
-                        // },
-                        //
-                        //
-                        //     function (value, index) {
-                        //     EidtUv(data, value, index, obj);
-                        //
-                        //
-                        // });
-
-
-                    }
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            // , height: 312
+            , url: '/userList2' //数据接口
+            , page: true //开启分页
+            , limits: [5, 10, 15, 20]
+            , limit: 5
+            , id: 'testReload'
+            , toolbar: '#toolbarDemo'
+            , cols: [[ //表头
+                {type: 'checkbox', fixed: 'left'}
+                , {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left'}
+                , {field: 'name', title: '用户名', width: 80}
+                , {field: 'loginName', title: '登录名', width: 80, sort: true}
+                , {field: 'password', title: '密码', width: 80}
+                , {field: 'gender', title: '性别', width: 177}
+                , {field: 'birthDate', title: '生日', width: 80, sort: true}
+                , {field: 'phone', title: '电话', width: 80, sort: true}
+                , {field: 'address', title: '地址', width: 80}
+                , {field: 'userType', title: '用户权限', width: 135, sort: true}
+                //注意div不可省略
+                , {
+                    field: 'headpath', title: '头像', width: 80,
+                    templet: '<div><img class="layui-upload-img" id="demo1" style="width: 30px;height: 30px" src="/pic/{{d.headpath}}" alt=""></div>'
                 }
-            );
-
-
-            function EidtUv(data, value, index, obj) {
-                $.ajax({
-                    url: "UVServlet",
-                    type: "POST",
-                    data: {"uvid": data.id, "memthodname": "edituv", "aid": data.aid, "uv": value},
-                    dataType: "json",
-                    success: function (data) {
-
-                        if (data.state == 1) {
-
-                            layer.close(index);
-                            //同步更新表格和缓存对应的值
-                            obj.update({
-                                uv: value
-                            });
-                            layer.msg("修改成功", {icon: 6});
-                        } else {
-                            layer.msg("修改失败", {icon: 5});
+                , {fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo'}
+            ]]
+            , done: function (res, curr, count) {  //回调函数解决最后一页删除跳转到前一页
+                if (res.data.length == 0 && count > 0) {
+                    table.reload('testReload', {
+                        page: {
+                            curr: curr - 1
                         }
-                    }
-
-                });
+                    });
+                }
             }
 
+        });
 
-        }
-    )
-    ;
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'detail') {      //查看
+                //layer.msg('查看操作');
+                //弹出即全屏
+                var index1 = layer.open({
+                    type: 1,
+                    content: $('#detailForm').html(),
+                    maxmin: true
+                });
+                layer.full(index1);
+                $("#dname").html(data.name);
+                $("#dloginName").html(data.loginName);
+                $("#dbirthDate").html(data.birthDate);
+                $("#daddress").html(data.address);
+                $("#headpath1").attr("src", "/pic/" + data.headpath);
+            } else if (layEvent === 'del') {      //单个删除
+                layer.confirm('真的删除行么', function (index) {
+                    $.ajax({
+                        url: "/delete",
+                        data: {"ids": data.id},
+                        success: function (flag) {
+                            if (flag == 1) {
+                                layer.msg("删除成功", {icon: 6});
+                                layer.closeAll();
+                                table.reload('testReload', {});
+                            } else {
+                                layer.msg("删除 失败", {icon: 6});
+                            }
+                        }
+                    })
+                    //obj.del(); //删除对应行（tr）的DOM结构
+                    // layer.close(index);
+                    //向服务端发送删除指令
+                });
+            }
+            else if (layEvent === 'edit') {     //编辑(修改)
+                //layer.msg('编辑操作');
+                layer.open({ //打开页面
+                    title: "编辑用户",
+                    type: 1,
+                    content: $('#updatepage').html(),
+                    area: ['700px', '400px'],
+                    closeBtn: 2,
+                    skin: 'layui-layer-rim', //加上边框
+                });
+                form.val('update-form', { //填充数据
+                        id: obj.data.id, //这里必须用input name属性
+                        name: obj.data.name,
+                        loginName: obj.data.loginName,
+                        birthDate: obj.data.birthDate,
+                        address: obj.data.address
+
+                    }
+                );
+
+                $("#head").attr("src", "/pic/" + obj.data.headpath);
+            }
+
+            //普通图片上传
+            var id = $('#id').val();
+            var uploadInst = upload.render({
+                elem: '#test1'
+                , url: '/uploadFile'
+                , auto: false //选择文件后不自动上传
+                , bindAction: '#upload' //指向一个按钮触发上传
+                , data: {
+                    id: function () {
+                        return id;
+                    }
+                }
+                , before: function () {
+                    //预读本地文件示例，不支持ie8
+                    layer.load(); //上传loading
+
+                },
+                choose: function (obj) {
+                    obj.preview(function (index, file, result) {
+                        $('#head').attr('src', result); //图片链接（base64）
+                    });
+                }
+                , done: function (msg) {
+                    //如果上传失败
+                    if (msg.code > 0) {
+                        return layer.msg('上传失败');
+                    } else {
+                        layer.close(layer.index)
+                        parent.location.reload();
+                        return layer.msg('上传成功');
+                        //上传成功
+                    }
+                }
+                , error: function () {
+                    //演示失败状态，并实现重传
+                    var demoText = $('#demoText');
+                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                    demoText.find('.demo-reload').on('click', function () {
+                        uploadInst.upload();
+                    });
+                }
+            });
+
+
+        });
+        form.on('submit(update-submit_btn)', function (data) {
+            console.log(data);
+            $.post('/updateUserList', data.field, function (flag) {
+
+                if (flag == 1) {
+                    layer.msg("修改成功", {icon: 6});
+                    layer.closeAll();
+                    table.reload('testReload', {});//修改后返回列表页面进行刷新
+                } else {
+                    layer.msg("修改失败", {icon: 6});
+                }
+            })
+            //return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        })
+
+        table.on('toolbar(test)', function (obj) {
+            //var checkStatus = table.checkStatus(obj.config.id);
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'add'://添加
+                    var w = ($(window).width() * 0.7);
+                    var h = ($(window).height() - 50);
+                    var index3 = layer.open({
+                        resize: true,
+                        title: '添加记录',
+                        shadeClose: true,
+                        area: [w + 'px', h + 'px'],
+                        type: 2,
+                        content: 'add.html',
+                        success: function (layero, index) {
+                            var body = layer.getChildFrame('body', index);
+                            ///      body.find('#content').append(editor.txt.html());
+                        }
+                    });
+                    layer.full(index3);
+                    break;
+
+
+                case 'delete'://批量删除
+                    var data = checkStatus.data,
+                        id = "";
+                    if (data.length > 0) {
+                        for (var i in data) {
+                            id += data[i].id + ","
+                            layer.msg(id);
+                        }
+                        console.log(id);
+                        layer.confirm('真的删除行么', function (index) {
+                            $.ajax({
+                                url: "/delete",
+                                data: {"ids": id},
+                                success: function (flag) {
+                                    if (flag > 0) {
+                                        layer.msg("删除成功", {icon: 6});
+                                        layer.closeAll();
+                                        table.reload('testReload', {});
+                                    } else {
+                                        layer.msg("删除失败", {icon: 6});
+                                    }
+
+                                }
+                            })
+
+                        })
+                    }
+                    break;
+                case
+                'update'://编辑(左上角的编辑按钮)
+                    layer.msg('编辑');
+                    break;
+            }
+            ;
+        });
+
+
+        //监听复选框选择
+        $(".delAll_btn").on("click", function () {
+
+            var checkStauts = table.checkStatus("demo"), //demo是table的id checkstauts 是所有被选中的列表项
+                data = checkStauts.data,
+                user_ids = "";
+
+            if (data.length > 0) {
+                for (var i in data) {
+                    user_ids += data[i].user_id + ","
+                }
+
+                console.log(user_ids);
+                layer.confirm("确定删除选中的记录么？", {icon: 3, ttial: '提示信息'}, function (idenx) {
+                    $.post("delete", {"user_ids": user_ids}, function (data) {
+
+                        table.reload('testReload', {});
+                        layer.close(index);
+                    })
+
+                })
+            }
+        })
+
+        //查询
+        var active = {
+            reload: function () {
+                var searchName = $('#searchName');
+                var searchAddress = $('#searchAddress');
+
+                //执行重载
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , url: "/userList2"
+                    , where: {
+                        'name': searchName.val(),
+                        'address': searchAddress.val()
+                    }
+                }, 'data');
+
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+    });
+
 </script>
 </body>
 </html>

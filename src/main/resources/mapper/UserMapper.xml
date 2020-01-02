@@ -5,19 +5,44 @@
     <sql id="sql">
         select * from user2
     </sql>
+    <select id="login" parameterType="user" resultType="User">
+        <include refid="sql"/> where name=#{loginName} and password=#{password}
+    </select>
 
+    <select id="getUserList"  resultType="User">
+        <include refid="sql"/>
+    </select>
+
+    <select id="userCount" resultType="integer">
+        select count(*) from user2
+    </select>
 
     <select id="getUserList2"  parameterType="hashmap" resultType="User">
         <include refid="sql"/>
         <where>
-            <if test="loginName != null and loginName != ''">
-                and name like '%${loginName}%'
+            <if test="name != null and name != ''">
+                and name like '%${name}%'
             </if>
-            <if test="email != null and email != ''">
-                and email=#{email}
+            <if test="address != null and address != ''">
+                and address=#{address}
             </if>
         </where>
-        limit #{pagestart},#{size}
+         limit #{pagestart},#{size}
     </select>
+
+<update id="updateUserList" parameterType="user">
+    update user2 set name=#{name},loginName=#{loginName},birthDate=#{birthDate},address=#{address} where id=#{id}
+</update>
+
+    <update id="updateHeadPath" parameterType="user">
+        update user2 set headpath=#{headpath} where id=#{id}
+    </update>
+    <delete id="delete" parameterType="user">
+        delete from user2 where id=#{id}
+    </delete>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="user">
+        insert into user2 value (null,#{name},#{loginName},null,null,#{birthDate},null,#{address},null,#{headpath})
+    </insert>
 
 </mapper>

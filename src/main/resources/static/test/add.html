@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <title>添加用户</title>
+</head>
+<body>
+<script src="/layui/layui.all.js"></script>
+
+<form class="layui-form" lay-filter="update-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block ">
+            <input type="text" name="name"
+                   id="name"
+                   required lay-verify="required" class="layui-input" style="width: 200px"
+                   placeholder="请输入姓名">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">登录名</label>
+        <div class="layui-input-block ">
+
+            <input type="text" name="loginName" class="layui-input" style="width: 200px"
+                   id="loginName"
+                   required lay-verify="required"
+                   placeholder="请输入登录名">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">生日</label>
+        <div class="layui-input-block ">
+            <input type="text" name="birthDate" class="layui-input" style="width: 200px"
+                   id="birthDate"
+                   required lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">地址</label>
+        <div class="layui-input-block ">
+            <input type="text" name="address" class="layui-input" style="width: 200px"
+                   id="address"
+                   required lay-verify="required"
+                   placeholder="地址">
+        </div>
+    </div>
+    <!--<div class="layui-upload">-->
+    <!--<label class="layui-form-label">头像</label>-->
+    <!--<div class="layui-upload-list">-->
+    <!--<img class="layui-upload-img" id="demo1" style="width: 100px;height:100px">-->
+    <!--<button type="button" class="layui-btn layui-btn-img" id="test1">上传头像</button>-->
+    <!--<p id="demoText"></p>-->
+    <!--</div>-->
+    <!--</div>-->
+    <div class="layui-form-item" style="margin-top:5px;width:500px;">
+        <label class="layui-form-label">头像</label>
+        <div class="layui-upload">
+            <div class="layui-upload-list">
+                <div class="upload-img"></div>
+                <p id="demoText"></p>
+                <img style="width: 100px;height:100px; border-radius:50% " id="preview">
+
+                <button type="button" class="layui-btn layui-btn-img" id="test1"
+                        id="test1">上传头像
+
+                </button>
+                <button type="button" class="btn btn-primary" id="uploadImg"
+                        style="display:none">
+                    提交图片
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item" style="margin-top:40px">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-submit " lay-submit=""
+                    lay-filter="update-submit_btn" id="add">添加
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    var reid;
+    layui.use(['form', "jquery", 'upload'], function () {
+        var form = layui.form,
+            $ = layui.$, //重点处:引入原生的Jquery $
+            upload = layui.upload;
+
+        form.render();
+        form.on('submit(update-submit_btn)', function (data) {
+
+            $.ajax(
+                {
+                    url: "/addUser",
+                    data: JSON.stringify(data.field),
+                    type: "post",
+                    contentType: "application/json",
+                    success: function (d) {
+                        console.log(d);
+                        if (d > 0) {
+                            reid = d;
+                            $("#uploadImg").trigger("click");
+                            layer.close(layer.index);
+                            parent.location.reload();
+                        } else {
+                            layer.msg("添加失败！")
+                        }
+                    }
+                })
+            return false;//阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            , url: '/uploadFile'
+            , auto: false//选择文件后不自动上传
+            , bindAction: '#uploadImg' //指向一个按钮触发上传
+            , before: function (obj) {
+                layer.load(); //上传loading
+                this.data = {'id': reid};//整合上传的参数
+                //预读本地文件示例，不支持ie8
+                //选择文件后的回调
+
+            },
+            choose: function (obj) {
+                obj.preview(function (index, file, result) {
+                    $('#preview').attr('src', result); //图片链接（base64）
+                });
+            }
+            , done: function (msg) {
+                //如果上传失败
+                if (msg.code > 0) {
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+    })
+</script>
+</body>
+</html>

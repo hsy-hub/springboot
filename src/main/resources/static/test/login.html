@@ -25,16 +25,12 @@
             <button lay-submit lay-filter="login" class="layui-btn">登录</button>
         </div>
         <hr/>
-        <!--<div class="layui-input-inline">
-            <button type="button" class="layui-btn layui-btn-primary">QQ登录</button>
-        </div>
-        <div class="layui-input-inline">
-            <button type="button" class="layui-btn layui-btn-normal">微信登录</button>
-        </div>-->
-        <p><a href="/test/register.html" class="fl">立即注册</a><a href="javascript:;" class="fr">忘记密码？</a></p>
+        <p>
+            <!--<a href="/test/register.html" class="fl">立即注册</a>-->
+            <a href="javascript:;" class="fr">忘记密码？</a>
+        </p>
     </form>
 </div>
-
 
 <script src="../layui/layui.js"></script>
 <script type="text/javascript">
@@ -53,16 +49,17 @@
                 type: 'post',
                 success: function (data) {
                     if (data) {
-                        location.href = "/test/main.html";
+                        location.href = "/test/back.html";
                     } else {
                         layer.msg('登录名或密码错误');
                     }
                 }
-            })
+            });
             return false;
         })
 
     });
+
 </script>
 </body>
 </html>
