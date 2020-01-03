@@ -81,14 +81,14 @@
                        required lay-verify="required"
                        placeholder="地址">
             </div>
-            <div class="layui-upload">
-                <label class="layui-form-label">头像</label>
-                <div class="layui-upload-list">
-                    <img class="layui-upload-img" id="head" name="demo1" src="/pic/" style="width: 100px;height:100px">
-                    <button type="button" class="layui-btn layui-btn-img" id="test1">上传头像</button>
-                    <p id="demoText"></p>
-                </div>
-            </div>
+            <!--<div class="layui-upload">-->
+                <!--<label class="layui-form-label">头像</label>-->
+                <!--<div class="layui-upload-list">-->
+                    <!--<img class="layui-upload-img" id="head" name="demo1" src="/pic/" style="width: 100px;height:100px">-->
+                    <!--<button type="button" class="layui-btn layui-btn-img" id="test1">上传头像</button>-->
+                    <!--<p id="demoText"></p>-->
+                <!--</div>-->
+            <!--</div>-->
             <div class="layui-form-item" style="margin-top:40px">
                 <div class="layui-input-block">
                     <button class="layui-btn layui-btn-submit " lay-submit=""
@@ -129,7 +129,7 @@
     </div>
 
 
-    <label class="layui-form-label">头像</label>
+    <!--<label class="layui-form-label">头像</label>-->
     <div class="layui-upload-list">
         <img class="layui-upload-img" id="headpath1" name="demo1" style="width: 100px;height:100px">
     </div>
@@ -166,10 +166,10 @@
                 , {field: 'address', title: '地址', width: 80}
                 , {field: 'userType', title: '用户权限', width: 135, sort: true}
                 //注意div不可省略
-                , {
-                    field: 'headpath', title: '头像', width: 80,
-                    templet: '<div><img class="layui-upload-img" id="demo1" style="width: 30px;height: 30px" src="/pic/{{d.headpath}}" alt=""></div>'
-                }
+                // , {
+                //     field: 'headpath', title: '头像', width: 80,
+                //     templet: '<div><img class="layui-upload-img" id="demo1" style="width: 30px;height: 30px" src="/pic/{{d.headpath}}" alt=""></div>'
+                // }
                 , {fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo'}
             ]]
             , done: function (res, curr, count) {  //回调函数解决最后一页删除跳转到前一页
